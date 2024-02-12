@@ -4,6 +4,9 @@ from app.users.auth import get_password_hash, authenticate_user, create_access_t
 from app.users.dao import UsersDAO, RequestsDAO
 from app.users.schemas import SUserAuth
 
+from app.chek_gpt import ask_gpt, run_provider
+from app.chatgpt import ask_gpt as chatopenai
+
 
 router = APIRouter(
     prefix="/auth",
@@ -43,13 +46,13 @@ async def post_request(request: str, user_data: SUserAuth):
     user = await authenticate_user(user_data.email, user_data.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    await RequestsDAO.add(body_request=request, id_owner_request=user.id)
+    result = chatopenai(request)
+    await RequestsDAO.add(body_request=request, id_owner_request=user.id, answer_request=result)
+    return result
 
 
 @router.get("/last_three")
 async def get_last_three(id: int):
     result = await RequestsDAO.last_3_request(id_owner_request=id)
     return result
-
-
 

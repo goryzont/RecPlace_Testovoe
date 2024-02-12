@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
 
+    SECRET_KEY_OPEN_AI: str
+
     @property
     def database_url(self):
         return (f'postgresql+asyncpg://{self.DB_USER}:'

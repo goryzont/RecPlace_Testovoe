@@ -9,9 +9,9 @@ class SUserAuth(BaseModel):
 class SUserRequests(SUserAuth):
     last_request: int
     quantity_requests: int
-    requests: list[str]
 
 
 class SRequest(BaseModel):
     body_request: str
+    answer_request: str
     owner_request: str

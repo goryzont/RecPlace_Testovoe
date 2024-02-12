@@ -16,4 +16,5 @@ class Request(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     body_request: Mapped[str]
+    answer_request: Mapped[str]
     id_owner_request: Mapped[int] = mapped_column(ForeignKey("users.id"))
